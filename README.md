@@ -13,8 +13,6 @@ RentX is a comprehensive rental property management system developed in Java Swi
 - [Future Plans](#future-plans)
 - [Getting Started](#getting-started)
 - [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
 
 ---
