@@ -35,7 +35,7 @@ public class Property {
 
     @NotNull(message = "Rent amount is required")
     @Positive(message = "Rent must be positive")
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private BigDecimal rent;
 
     @Enumerated(EnumType.STRING)
@@ -48,12 +48,10 @@ public class Property {
 
     @DecimalMin(value = "-90.0", message = "Latitude must be between -90 and 90")
     @DecimalMax(value = "90.0", message = "Latitude must be between -90 and 90")
-    @Column(precision = 10, scale = 8)
     private Double latitude;
 
     @DecimalMin(value = "-180.0", message = "Longitude must be between -180 and 180")
     @DecimalMax(value = "180.0", message = "Longitude must be between -180 and 180")
-    @Column(precision = 11, scale = 8)
     private Double longitude;
 
     @Column(name = "created_at")
@@ -73,7 +71,7 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private FurnishingStatus furnishingStatus;
 
-    @Column(name = "security_deposit", precision = 10, scale = 2)
+    @Column(name = "security_deposit")
     private BigDecimal securityDeposit;
 
     @ElementCollection
