@@ -62,33 +62,34 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
-                // Public endpoints
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/public/**").permitAll()
+                // Public endpoints  
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/public/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/api-docs/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 
                 // Admin endpoints
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 
                 // Tenant endpoints
-                .requestMatchers("/api/tenant/**").hasRole("TENANT")
+                .requestMatchers("/tenant/**").hasRole("TENANT")
                 
                 // Landlord endpoints
-                .requestMatchers("/api/landlord/**").hasRole("LANDLORD")
+                .requestMatchers("/landlord/**").hasRole("LANDLORD")
                 
                 // Property endpoints (accessible by tenants and landlords)
-                .requestMatchers("/api/properties/search/**").hasAnyRole("TENANT", "LANDLORD")
-                .requestMatchers("/api/properties/view/**").hasAnyRole("TENANT", "LANDLORD")
-                .requestMatchers("/api/properties/all").hasAnyRole("TENANT", "LANDLORD", "ADMIN")
-                .requestMatchers("/api/properties/available").hasAnyRole("TENANT", "LANDLORD")
-                .requestMatchers("/api/properties/add").hasRole("LANDLORD")
-                .requestMatchers("/api/properties/update/**").hasRole("LANDLORD")
-                .requestMatchers("/api/properties/delete/**").hasRole("LANDLORD")
+                .requestMatchers("/properties/search/**").hasAnyRole("TENANT", "LANDLORD")
+                .requestMatchers("/properties/view/**").hasAnyRole("TENANT", "LANDLORD")
+                .requestMatchers("/properties/all").hasAnyRole("TENANT", "LANDLORD", "ADMIN")
+                .requestMatchers("/properties/available").hasAnyRole("TENANT", "LANDLORD")
+                .requestMatchers("/properties/add").hasRole("LANDLORD")
+                .requestMatchers("/properties/update/**").hasRole("LANDLORD")
+                .requestMatchers("/properties/delete/**").hasRole("LANDLORD")
                 
                 // All other requests need authentication
                 .anyRequest().authenticated()
