@@ -26,7 +26,7 @@ import java.util.Map;
  * Authentication controller for login and registration
  */
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @Tag(name = "Authentication", description = "Authentication endpoints for login and registration")
 public class AuthController {
 
